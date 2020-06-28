@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     width: "100%",
-    height: "60%",
+    height: "55%",
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
     overflow: "hidden",
@@ -75,9 +75,9 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
   },
-  detailsContainer: { alignItems: "center", height: "15%", padding: 10 },
-  title: { fontSize: 18, marginVertical: 3 },
-  price: { fontSize: 14, color: Colors.grey },
+  detailsContainer: { alignItems: "center", height: "20%", padding: 10 },
+  title: { fontSize: 18, marginVertical: 5, fontFamily: "open-sans-bold" },
+  price: { fontSize: 14, color: Colors.grey, fontFamily: "open-sans" },
   actionsContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
