@@ -1,6 +1,6 @@
 import React from "react";
-import { View, FlatList, StyleSheet } from "react-native";
-// import { useSelector } from "react-redux";
+import { View, Text, FlatList, StyleSheet } from "react-native";
+import { useSelector } from "react-redux";
 
 const ProductsOverviewScreen = (props) => {
   const availableProducts = useSelector(
