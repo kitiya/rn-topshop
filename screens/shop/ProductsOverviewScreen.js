@@ -6,7 +6,6 @@ import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import * as cartActions from "../../store/actions/cart";
 import ProductItem from "../../components/shop/ProductItem";
 import HeaderButton from "../../components/UI/HeaderButton";
-import ProductDetailScreen from "./ProductDetailScreen";
 
 const ProductsOverviewScreen = (props) => {
   const availableProducts = useSelector(
@@ -45,7 +44,7 @@ const ProductsOverviewScreen = (props) => {
   );
 };
 
-ProductDetailScreen.navigationOptions = (navData) => {
+ProductsOverviewScreen.navigationOptions = (navData) => {
   return {
     headerTitle: "All Products",
     headerRight: () => (
