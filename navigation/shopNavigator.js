@@ -29,7 +29,6 @@ const ProductsNavigator = createStackNavigator(
     ProductsOverview: ProductsOverviewScreen,
     ProductDetail: ProductDetailScreen,
     Cart: CartScreen,
-    Order: OrdersScreen,
   },
   {
     navigationOptions: {
