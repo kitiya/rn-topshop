@@ -8,6 +8,7 @@ class Order {
     this.date = date;
   }
 
+  // The get syntax binds an object property to a function that will be called when that property is looked up.
   get readableDate() {
     return moment(this.date).format("MMMM Do YYYY, hh:mm");
   }
