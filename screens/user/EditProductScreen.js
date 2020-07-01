@@ -5,6 +5,7 @@ import {
   Text,
   TextInput,
   Platform,
+  Alert,
   StyleSheet,
 } from "react-native";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
@@ -23,6 +24,7 @@ const EditProductScreen = (props) => {
   const dispatch = useDispatch();
 
   const [title, setTitle] = useState(editedProduct ? editedProduct.title : "");
+  const [titleIsValid, setTitleIsValid] = useState(false);
   const [imageUrl, setImageUrl] = useState(
     editedProduct ? editedProduct.imageUrl : ""
   );
@@ -32,10 +34,14 @@ const EditProductScreen = (props) => {
     editedProduct ? editedProduct.description : ""
   );
 
-  // useCallback() ensures that
-  // the function inside (console.log()) isn't recreated every time the component re-render
-  // and therefore we avoid entering an infinite loop.
   const submitHandler = useCallback(() => {
+    if (!titleIsValid) {
+      Alert.alert("Wrong input!", "Please check the errors in the form", [
+        { text: "OK" },
+      ]);
+      return;
+    }
+
     if (editedProduct) {
       dispatch(
         productsActions.updateProduct(prodId, title, description, imageUrl)
@@ -52,6 +58,16 @@ const EditProductScreen = (props) => {
     props.navigation.setParams({ submit: submitHandler });
   }, [submitHandler]);
 
+  const titleChangeHandler = (text) => {
+    // check that text is empty or not
+    if (text.trim().length === 0) {
+      setTitleIsValid(false);
+    } else {
+      setTitleIsValid(true);
+    }
+    setTitle(text);
+  };
+
   return (
     <ScrollView>
       <View style={styles.form}>
@@ -59,14 +75,15 @@ const EditProductScreen = (props) => {
           <Text style={styles.label}>Title</Text>
           <TextInput
             value={title}
-            onChangeText={(text) => setTitle(text)}
+            onChangeText={titleChangeHandler}
             style={styles.input}
             autoCapitalize="sentences"
             autoCorrect
             returnKeyType="next"
             onEndEditing={() => {}}
-            onEndEditing={() => {}}
+            onSubmitEditing={() => {}}
           />
+          {!titleIsValid && <Text>Please enter a valid title!</Text>}
         </View>
         <View style={styles.formControl}>
           <Text style={styles.label}>ImageURL</Text>
