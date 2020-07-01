@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   View,
   ScrollView,
@@ -10,7 +10,6 @@ import {
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { useSelector } from "react-redux";
 
-import PRODUCTS from "../../data/dummy-data";
 import HeaderButton from "../../components/UI/HeaderButton";
 import Colors from "../../constants/Colors";
 
@@ -29,6 +28,17 @@ const EditProductScreen = (props) => {
   const [description, setDescription] = useState(
     editedProduct ? editedProduct.description : ""
   );
+
+  // useCallback() ensures that
+  // the function inside (console.log()) isn't recreated every time the component re-render
+  // and therefore we avoid entering an infinite loop.
+  const submitHandler = useCallback(() => {
+    console.log("submited!!");
+  }, []);
+
+  useEffect(() => {
+    props.navigation.setParams({ submit: submitHandler });
+  }, [submitHandler]);
 
   return (
     <ScrollView>
@@ -75,6 +85,7 @@ const EditProductScreen = (props) => {
 
 EditProductScreen.navigationOptions = (navData) => {
   const productId = navData.navigation.getParam("productId");
+  const submitfn = navData.navigation.getParam("submit");
   return {
     headerTitle: productId ? "Edit Product" : "New Product",
     headerRight: () => (
@@ -85,7 +96,7 @@ EditProductScreen.navigationOptions = (navData) => {
             Platform.OS === "android" ? "md-save" : "ios-save"
             // Platform.OS === "android" ? "md-checkmark" : "ios-checkmark"
           }
-          onPress={() => {}}
+          onPress={submitfn}
         />
       </HeaderButtons>
     ),
