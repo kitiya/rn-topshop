@@ -7,7 +7,6 @@ import * as cartActions from "../../store/actions/cart";
 import ProductItem from "../../components/shop/ProductItem";
 import HeaderButton from "../../components/UI/HeaderButton";
 import Colors from "../../constants/Colors";
-
 const ProductsOverviewScreen = (props) => {
   const availableProducts = useSelector(
     (state) => state.products.availableProducts
