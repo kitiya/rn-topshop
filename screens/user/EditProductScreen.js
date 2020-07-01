@@ -61,6 +61,11 @@ const EditProductScreen = (props) => {
             value={title}
             onChangeText={(text) => setTitle(text)}
             style={styles.input}
+            autoCapitalize="sentences"
+            autoCorrect
+            returnKeyType="next"
+            onEndEditing={() => {}}
+            onEndEditing={() => {}}
           />
         </View>
         <View style={styles.formControl}>
@@ -78,6 +83,7 @@ const EditProductScreen = (props) => {
               value={price}
               onChangeText={(text) => setPrice(text)}
               style={styles.input}
+              keyboardType="decimal-pad"
             />
           </View>
         )}
