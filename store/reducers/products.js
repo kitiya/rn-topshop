@@ -51,7 +51,7 @@ export default (state = initialState, action) => {
       const updatedAvailableProducts = [...state.availableProducts];
       updatedAvailableProducts[availableProductIndex] = updatedProduct;
 
-      console.log("product reducer", updatedAvailableProducts);
+      // console.log("product reducer", updatedAvailableProducts);
       return {
         ...state,
         availableProducts: updatedAvailableProducts,
