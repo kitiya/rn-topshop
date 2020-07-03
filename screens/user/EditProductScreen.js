@@ -115,55 +115,62 @@ const EditProductScreen = (props) => {
     props.navigation.setParams({ submit: submitHandler });
   }, [submitHandler]);
 
-  const textChangeHandler = (inputIdentifier, text) => {
-    let isTextValid = false;
-
-    // check that text is empty or not
-    if (text.trim().length > 0) {
-      isTextValid = true;
-    }
-
-    dispatchFormState({
-      type: FORM_INPUT_UPDATE,
-      value: text,
-      isValid: isTextValid,
-
-      // let the reducer knows which input trigger this
-      // the "inputIdentifier" key should match the state, `inputValues` and `inputValidities`
-      // inside the `useReducer()` function above.
-      // because this will allow you to write some reducer code
-      // which is highly reusable and highly flexible.
-      // because we will transform this to be a funcion that actually works for all inputs
-      input: inputIdentifier,
-    });
-  };
+  // using `useCallback` to avoid unnescessary rerendering
+  // because the `inputChangHandler` is used inside the `useEffect` function
+  // which is inside the `Input` component.
+  const inputChangeHandler = useCallback(
+    (inputIdentifier, inputValue, inputValidity) => {
+      dispatchFormState({
+        type: FORM_INPUT_UPDATE,
+        value: inputValue,
+        isValid: inputValidity,
+        input: inputIdentifier,
+      });
+    },
+    [dispatchFormState]
+  );
 
   return (
     <ScrollView>
       <View style={styles.form}>
         <Input
+          id="title"
           label="Title"
           keyboardType="default"
           autoCapitalize="sentences"
           autoCorrect
           returnKeyType="next"
           errorText="Please enter a valid title!"
+          onInputChange={inputChangeHandler}
+          initialValue={editedProduct ? editedProduct.title : ""}
+          initiallyValid={!!editedProduct}
+          required
         />
         <Input
+          id="imageUrl"
           label="Image Url"
           keyboardType="default"
           returnKeyType="next"
           errorText="Please enter a valid image url!"
+          onInputChange={inputChangeHandler}
+          initialValue={editedProduct ? editedProduct.imageUrl : ""}
+          initiallyValid={!!editedProduct}
+          required
         />
         {editedProduct ? null : (
           <Input
+            id="price"
             label="Price"
             keyboardType="decimal-pad"
             returnKeyType="next"
             errorText="Please enter a valid price!"
+            onInputChange={inputChangeHandler}
+            required
+            min={0.1}
           />
         )}
         <Input
+          id="description"
           label="Description"
           keyboardType="default"
           autoCapitalize="sentences"
@@ -171,6 +178,11 @@ const EditProductScreen = (props) => {
           multiline
           numberOfLines={3} // only for android
           errorText="Please enter a valid description!"
+          onInputChange={inputChangeHandler}
+          initialValue={editedProduct ? editedProduct.description : ""}
+          initiallyValid={!!editedProduct}
+          required
+          minLength={5}
         />
       </View>
     </ScrollView>
