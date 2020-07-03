@@ -21,6 +21,9 @@ const rootReducer = combineReducers({
   orders: ordersReducer,
 });
 
+// adding `applyMiddleware()` as a 2nd parameter
+// to enable `ReduxThunk` package which allows us
+// to do diff things in the action creator.
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 
 const fetchFonts = () => {
