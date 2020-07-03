@@ -13,6 +13,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 import * as productsActions from "../../store/actions/products";
 import HeaderButton from "../../components/UI/HeaderButton";
+import Input from "../../components/UI/Input";
 import Colors from "../../constants/Colors";
 
 const FORM_INPUT_UPDATE = "UPDATE";
@@ -140,53 +141,37 @@ const EditProductScreen = (props) => {
   return (
     <ScrollView>
       <View style={styles.form}>
-        <View style={styles.formControl}>
-          <Text style={styles.label}>Title</Text>
-          <TextInput
-            value={formState.inputValues.title}
-            // the 'title' argument has to match the key inside the `useReducer()` function
-            // note that we don't have to bind "text" argument insid the `textChangeHandler()` function
-            // because it will be forward automatically when we use the `onChangeText` prop
-            onChangeText={textChangeHandler.bind(this, "title")}
-            style={styles.input}
-            autoCapitalize="sentences"
-            autoCorrect
-            returnKeyType="next"
-            onEndEditing={() => {}}
-            onSubmitEditing={() => {}}
-          />
-          {!formState.inputValidities.title && (
-            <Text>Please enter a valid title!</Text>
-          )}
-        </View>
-        <View style={styles.formControl}>
-          <Text style={styles.label}>ImageURL</Text>
-          <TextInput
-            value={formState.inputValues.imageUrl}
-            onChangeText={textChangeHandler.bind(this, "imageUrl")}
-            style={styles.input}
-          />
-        </View>
+        <Input
+          label="Title"
+          keyboardType="default"
+          autoCapitalize="sentences"
+          autoCorrect
+          returnKeyType="next"
+          errorText="Please enter a valid title!"
+        />
+        <Input
+          label="Image Url"
+          keyboardType="default"
+          returnKeyType="next"
+          errorText="Please enter a valid image url!"
+        />
         {editedProduct ? null : (
-          <View style={styles.formControl}>
-            <Text style={styles.label}>Price</Text>
-            <TextInput
-              value={formState.inputValues.price}
-              onChangeText={textChangeHandler.bind(this, "price")}
-              style={styles.input}
-              keyboardType="decimal-pad"
-            />
-          </View>
-        )}
-
-        <View style={styles.formControl}>
-          <Text style={styles.label}>Description</Text>
-          <TextInput
-            value={formState.inputValues.description}
-            onChangeText={textChangeHandler.bind(this, "description")}
-            style={styles.input}
+          <Input
+            label="Price"
+            keyboardType="decimal-pad"
+            returnKeyType="next"
+            errorText="Please enter a valid price!"
           />
-        </View>
+        )}
+        <Input
+          label="Description"
+          keyboardType="default"
+          autoCapitalize="sentences"
+          autoCorrect
+          multiline
+          numberOfLines={3} // only for android
+          errorText="Please enter a valid description!"
+        />
       </View>
     </ScrollView>
   );
@@ -215,14 +200,6 @@ EditProductScreen.navigationOptions = (navData) => {
 const styles = StyleSheet.create({
   form: {
     margin: 20,
-  },
-  formControl: { width: "100%" },
-  label: { fontFamily: "open-sans-bold", marginVertical: 8 },
-  input: {
-    paddingHorizontal: 2,
-    paddingVertical: 5,
-    borderBottomColor: Colors.lightGrey,
-    borderBottomWidth: 1,
   },
 });
 
