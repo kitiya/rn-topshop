@@ -39,9 +39,24 @@ const ProductsOverviewScreen = (props) => {
     setIsLoading(false);
   }, [dispatch, setError, setIsLoading]);
 
+  // need this `useEffect()` for the initial rendering
   useEffect(() => {
     loadProducts();
   }, [dispatch, loadProducts]);
+
+  // Drawer Navigation captures the screen and kept it in momory after the initially render
+  // this `useEffect()` helps to rerender the screen whenever the screen is reentered
+  // so, we can get updated data.
+  useEffect(() => {
+    const willFocusSub = props.navigation.addListener(
+      "willFocus",
+      loadProducts
+    );
+
+    return () => {
+      willFocusSub.remove();
+    };
+  }, [loadProducts]);
 
   const selectItemHandler = (id, title) => {
     props.navigation.navigate("ProductDetail", {
