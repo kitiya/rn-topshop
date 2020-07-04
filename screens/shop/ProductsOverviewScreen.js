@@ -19,6 +19,7 @@ import Colors from "../../constants/Colors";
 
 const ProductsOverviewScreen = (props) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
   const [error, setError] = useState(); // initial state is undefined
   const availableProducts = useSelector(
     (state) => state.products.availableProducts
@@ -30,18 +31,23 @@ const ProductsOverviewScreen = (props) => {
   // this is how we do it in the `useEffect()`
   const loadProducts = useCallback(async () => {
     setError(null);
-    setIsLoading(true);
+    setIsRefreshing(true);
+    // setIsLoading(true);
     try {
       await dispatch(productsActions.fetchProducts());
     } catch (err) {
       setError(err.message);
     }
-    setIsLoading(false);
+    setIsRefreshing(false);
+    // setIsLoading(false);
   }, [dispatch, setError, setIsLoading]);
 
   // need this `useEffect()` for the initial rendering
   useEffect(() => {
-    loadProducts();
+    setIsLoading(true);
+    loadProducts().then(() => {
+      setIsLoading(false);
+    });
   }, [dispatch, loadProducts]);
 
   // Drawer Navigation captures the screen and kept it in momory after the initially render
@@ -125,6 +131,8 @@ const ProductsOverviewScreen = (props) => {
       keyExtractor={(item) => item.id} // older version only
       data={availableProducts}
       renderItem={renderProductItem}
+      onRefresh={loadProducts}
+      refreshing={isRefreshing} // let React Native when you're done
     />
   );
 };
