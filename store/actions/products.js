@@ -46,12 +46,16 @@ export const fetchProducts = () => {
 
 export const deleteProduct = (productId) => {
   return async (dispatch) => {
-    await fetch(
+    const response = await fetch(
       `https://rn-topshop.firebaseio.com/products/${productId}.json`,
       {
         method: "DELETE",
       }
     );
+
+    if (!response.ok) {
+      throw new Error(`Error on deleting a product.`);
+    }
 
     dispatch({
       type: DELETE_PRODUCT,
@@ -98,17 +102,24 @@ export const createProduct = (title, description, imageUrl, price) => {
 
 export const updateProduct = (id, title, description, imageUrl) => {
   return async (dispatch) => {
-    await fetch(`https://rn-topshop.firebaseio.com/products/${id}.json`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        title,
-        description,
-        imageUrl,
-      }),
-    });
+    const response = await fetch(
+      `https://rn-topshop.firebaseio.com/products/${id}.json`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title,
+          description,
+          imageUrl,
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`Error on updating a product.`);
+    }
 
     dispatch({
       type: UPDATE_PRODUCT,
