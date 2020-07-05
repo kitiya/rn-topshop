@@ -91,10 +91,15 @@ const AuthScreen = (props) => {
     setIsLoading(true);
     try {
       await dispatch(action);
+      props.navigation.navigate("Shop");
     } catch (err) {
       setError(err.message);
+
+      // move to be inside the catch block
+      // to fix the memory leak error message
+      // (Can't perform a React state update on an unmounted component)
+      setIsLoading(false);
     }
-    setIsLoading(false);
   };
 
   const inputChangeHandler = useCallback(

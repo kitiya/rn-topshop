@@ -4,8 +4,6 @@ export const SIGNUP = "SIGNUP";
 export const LOGIN = "LOGIN";
 
 export const signup = (email, password) => {
-  console.log("FIREBASE KEY: ", FIREBASE_API_KEY);
-
   return async (dispatch) => {
     const response = await fetch(
       `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${FIREBASE_API_KEY}`,
@@ -32,14 +30,12 @@ export const signup = (email, password) => {
     }
 
     const resData = await response.json();
-    console.log(resData);
-    dispatch({ type: SIGNUP });
+    // console.log(resData);
+    dispatch({ type: SIGNUP, token: resData.idToken, userId: resData.localId });
   };
 };
 
 export const login = (email, password) => {
-  console.log("FIREBASE KEY: ", FIREBASE_API_KEY);
-
   return async (dispatch) => {
     const response = await fetch(
       `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${FIREBASE_API_KEY}`,
@@ -69,7 +65,7 @@ export const login = (email, password) => {
     }
 
     const resData = await response.json();
-    console.log(resData);
-    dispatch({ type: LOGIN });
+    // console.log(resData);
+    dispatch({ type: LOGIN, token: resData.idToken, userId: resData.localId });
   };
 };

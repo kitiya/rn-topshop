@@ -42,7 +42,7 @@ const OrdersScreen = (props) => {
 
   return (
     <FlatList
-      keyExtractor={(item) => item.id}
+      keyExtractor={(item, index) => item.id}
       data={orders}
       renderItem={(itemData) => (
         <OrderItem
