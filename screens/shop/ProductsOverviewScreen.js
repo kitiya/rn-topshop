@@ -98,6 +98,7 @@ const ProductsOverviewScreen = (props) => {
   };
 
   if (error) {
+    console.log(error.message);
     return (
       <View style={styles.centered}>
         <Text>An error occurred!</Text>

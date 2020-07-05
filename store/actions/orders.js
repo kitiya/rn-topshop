@@ -4,10 +4,11 @@ export const ADD_ORDER = "ADD_ORDER";
 export const SET_ORDER = "SET_ORDER";
 
 export const fetchOrders = () => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     try {
+      const userId = getState().auth.userId;
       const response = await fetch(
-        "https://rn-topshop.firebaseio.com/orders/u1.json"
+        `https://rn-topshop.firebaseio.com/orders/${userId}.json`
       );
 
       // check response status before unpack
@@ -44,8 +45,9 @@ export const addOrder = (cartItems, totalAmount) => {
   return async (dispatch, getState) => {
     const date = new Date();
     const token = getState().auth.token;
+    const userId = getState().auth.userId;
     const response = await fetch(
-      `https://rn-topshop.firebaseio.com/orders/u1.json?auth=${token}`,
+      `https://rn-topshop.firebaseio.com/orders/${userId}.json?auth=${token}`,
       {
         method: "POST",
         headers: {
