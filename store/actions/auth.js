@@ -7,8 +7,13 @@ import { AsyncStorage } from "react-native";
 export const AUTHENTICATE = "AUTHENTICATE";
 export const LOGOUT = "LOGOUT";
 
-export const authenticate = (userId, token) => {
-  return { type: AUTHENTICATE, userId: userId, token: token };
+let timer;
+
+export const authenticate = (userId, token, expiryTime) => {
+  return (dispatch) => {
+    dispatch(setLogoutTimer(expiryTime));
+    dispatch({ type: AUTHENTICATE, userId: userId, token: token });
+  };
 };
 
 export const signup = (email, password) => {
@@ -40,7 +45,13 @@ export const signup = (email, password) => {
     const resData = await response.json();
     // console.log(resData);
     // dispatch({ type: SIGNUP, token: resData.idToken, userId: resData.localId });
-    dispatch(authenticate(resData.userId, resData.idToken));
+    dispatch(
+      authenticate(
+        resData.userId,
+        resData.idToken,
+        parseInt(resData.expiresIn) * 1000
+      )
+    );
 
     const expirationDate = new Date(
       new Date().getTime() + parseInt(resData.expiresIn * 1000)
@@ -82,7 +93,13 @@ export const login = (email, password) => {
     const resData = await response.json();
     // console.log(resData);
     // dispatch({ type: LOGIN, token: resData.idToken, userId: resData.localId });
-    dispatch(authenticate(resData.userId, resData.idToken));
+    dispatch(
+      authenticate(
+        resData.userId,
+        resData.idToken,
+        parseInt(resData.expiresIn) * 1000
+      )
+    );
 
     // const currentTimestamp = new Date().getTime();
     // const expiresIn = parseInt(resData.expiresIn * 1000); // *1000 to convert to milliseconds
@@ -97,7 +114,26 @@ export const login = (email, password) => {
 };
 
 export const logout = () => {
+  clearLogoutTimer();
+
+  // remove userData from a local storage
+  AsyncStorage.removeItem("userData");
   return { type: LOGOUT };
+};
+
+const clearLogoutTimer = () => {
+  if (timer) {
+    // clearTimeout() is a built-in JS function
+    clearTimeout(timer);
+  }
+};
+
+const setLogoutTimer = (expirationTime) => {
+  return (dispatch) => {
+    timer = setTimeout(() => {
+      dispatch(logout());
+    }, expirationTime);
+  };
 };
 
 // save data to local storage
