@@ -8,6 +8,7 @@ export const SET_PRODUCTS = "SET_PRODUCTS";
 export const fetchProducts = () => {
   return async (dispatch, getState) => {
     const userId = getState().auth.userId;
+
     try {
       // we can add any async code before dispatch a new action object.
       const response = await fetch(
@@ -23,7 +24,7 @@ export const fetchProducts = () => {
 
       // convert object to array
       const loadedProducts = [];
-      console.log(resData);
+
       for (const key in resData) {
         loadedProducts.push(
           new Product(
@@ -79,6 +80,7 @@ export const createProduct = (title, description, imageUrl, price) => {
     // we can add any async code before dispatch a new action object.
     const token = getState().auth.token;
     const userId = getState().auth.userId;
+
     const response = await fetch(
       `https://rn-topshop.firebaseio.com/products.json?auth=${token}`,
       {
@@ -118,7 +120,6 @@ export const updateProduct = (id, title, description, imageUrl) => {
   // Redux Thunk allows us to get a second argument
   // which give use access to Redux state
   return async (dispatch, getState) => {
-    // console.log(getState());
     const token = getState().auth.token;
     const response = await fetch(
       `https://rn-topshop.firebaseio.com/products/${id}.json?auth=${token}`,

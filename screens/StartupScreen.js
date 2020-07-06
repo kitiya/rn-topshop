@@ -17,10 +17,12 @@ const StartupScreen = (props) => {
     const tryLogin = async () => {
       // 'userData' inside getItem() has to match the setItem() inside auth action.
       const userData = await AsyncStorage.getItem("userData");
+
       if (!userData) {
         props.navigation.navigate("Auth");
         return;
       }
+
       const transformedData = JSON.parse(userData);
       const { token, userId, expiryDate } = transformedData;
       const expirationDate = new Date(expiryDate);

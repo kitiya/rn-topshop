@@ -47,7 +47,7 @@ export const signup = (email, password) => {
     // dispatch({ type: SIGNUP, token: resData.idToken, userId: resData.localId });
     dispatch(
       authenticate(
-        resData.userId,
+        resData.localId,
         resData.idToken,
         parseInt(resData.expiresIn) * 1000
       )
@@ -95,7 +95,7 @@ export const login = (email, password) => {
     // dispatch({ type: LOGIN, token: resData.idToken, userId: resData.localId });
     dispatch(
       authenticate(
-        resData.userId,
+        resData.localId,
         resData.idToken,
         parseInt(resData.expiresIn) * 1000
       )

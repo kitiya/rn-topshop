@@ -49,6 +49,7 @@ const formReducer = (state, action) => {
 };
 
 const AuthScreen = (props) => {
+  // console.log("\nAuthScreen:\n", props);
   const [isSignup, setIsSignup] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState();
