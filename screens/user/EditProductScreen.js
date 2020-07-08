@@ -124,7 +124,18 @@ const EditProductScreen = (props) => {
   }, [dispatch, prodId, formState]);
 
   useEffect(() => {
-    props.navigation.setParams({ submit: submitHandler });
+    // with navigation 5, we now can set header inside our component.
+    props.navigation.setOptions({
+      headerRight: () => (
+        <HeaderButtons HeaderButtonComponent={HeaderButton}>
+          <Item
+            title="Save"
+            iconName={Platform.OS === "android" ? "md-save" : "ios-save"}
+            onPress={submitHandler}
+          />
+        </HeaderButtons>
+      ),
+    });
   }, [submitHandler]);
 
   // using `useCallback` to avoid unnescessary rerendering
@@ -222,18 +233,6 @@ export const screenOptions = (navData) => {
   const submitfn = routeParams.submit;
   return {
     headerTitle: productId ? "Edit Product" : "New Product",
-    headerRight: () => (
-      <HeaderButtons HeaderButtonComponent={HeaderButton}>
-        <Item
-          title="Save"
-          iconName={
-            Platform.OS === "android" ? "md-save" : "ios-save"
-            // Platform.OS === "android" ? "md-checkmark" : "ios-checkmark"
-          }
-          onPress={submitfn}
-        />
-      </HeaderButtons>
-    ),
   };
 };
 
