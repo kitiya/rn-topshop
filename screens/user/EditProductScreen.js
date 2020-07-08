@@ -51,7 +51,8 @@ const EditProductScreen = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState();
 
-  const prodId = props.navigation.getParam("productId");
+  // const prodId = props.navigation.getParam("productId");
+  const prodId = props.route.params ? props.route.params.productId : null;
   const editedProduct = useSelector((state) =>
     state.products.userProducts.find((prod) => prod.id === prodId)
   );
@@ -215,8 +216,10 @@ const EditProductScreen = (props) => {
 };
 
 export const screenOptions = (navData) => {
-  const productId = navData.navigation.getParam("productId");
-  const submitfn = navData.navigation.getParam("submit");
+  console.log(navData.route);
+  const routeParams = navData.route.params ? navData.route.params : {};
+  const productId = routeParams.productId; // will get undefined if routeParams is {}
+  const submitfn = routeParams.submit;
   return {
     headerTitle: productId ? "Edit Product" : "New Product",
     headerRight: () => (
