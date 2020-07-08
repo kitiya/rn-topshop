@@ -54,13 +54,10 @@ const ProductsOverviewScreen = (props) => {
   // this `useEffect()` helps to rerender the screen whenever the screen is reentered
   // so, we can get updated data.
   useEffect(() => {
-    const willFocusSub = props.navigation.addListener(
-      "willFocus",
-      loadProducts
-    );
+    const unsubscribe = props.navigation.addListener("focus", loadProducts);
 
     return () => {
-      willFocusSub.remove();
+      unsubscribe();
     };
   }, [loadProducts]);
 

@@ -27,7 +27,9 @@ import UserProductsScreen, {
 import EditProductScreen, {
   screenOptions as editProductScreenOptions,
 } from "../screens/user/EditProductScreen";
-import AuthScreen from "../screens/user/AuthScreen";
+import AuthScreen, {
+  screenOptions as authScreenOptions,
+} from "../screens/user/AuthScreen";
 import StartupScreen from "../screens/StartupScreen";
 import * as authActions from "../store/actions/auth";
 
@@ -48,7 +50,7 @@ const defaultNavOptions = {
 
 const ProductsStackNavigator = createStackNavigator();
 
-export const ProductsNavigator = () => {
+const ProductsNavigator = () => {
   return (
     <ProductsStackNavigator.Navigator screenOptions={defaultNavOptions}>
       <ProductsStackNavigator.Screen
@@ -72,7 +74,7 @@ export const ProductsNavigator = () => {
 
 const OrdersStackNavigator = createStackNavigator();
 
-export const OrderNavigator = () => {
+const OrdersNavigator = () => {
   return (
     <OrdersStackNavigator.Navigator screenOptions={defaultNavOptions}>
       <OrdersStackNavigator.Screen
@@ -86,7 +88,7 @@ export const OrderNavigator = () => {
 
 const AdminStackNavigator = createStackNavigator();
 
-export const AdminNavigator = () => {
+const AdminNavigator = () => {
   return (
     <AdminStackNavigator.Navigator screenOptions={defaultNavOptions}>
       <AdminStackNavigator.Screen
@@ -104,7 +106,7 @@ export const AdminNavigator = () => {
 };
 
 const ShopDrawerNavigator = createDrawerNavigator();
-const ShopNavigator = () => {
+export const ShopNavigator = () => {
   const dispatch = useDispatch();
   return (
     <ShopDrawerNavigator.Navigator
@@ -168,6 +170,19 @@ const ShopNavigator = () => {
         }}
       />
     </ShopDrawerNavigator.Navigator>
+  );
+};
+
+const AuthStackNavigator = createStackNavigator();
+export const AuthNavigator = () => {
+  return (
+    <AuthStackNavigator.Navigator screenOptions={defaultNavOptions}>
+      <AuthStackNavigator.Screen
+        name="Auth"
+        component={AuthScreen}
+        options={authScreenOptions}
+      />
+    </AuthStackNavigator.Navigator>
   );
 };
 
